@@ -1,264 +1,123 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Shreeram — Full‑Stack Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg-1: #071022; --bg-2: #0b1226;
-      --accent-a: #06b6d4; --accent-b: #8b5cf6; --accent-c: #ff7a59;
-      --glass: rgba(255,255,255,0.06);
-      --card: rgba(255,255,255,0.03);
-      --maxw:1200px; color-scheme: dark;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef6;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));-webkit-font-smoothing:antialiased}
-    a{color:inherit}
-    .container{max-width:var(--maxw);margin:0 auto;padding:28px}
-
-    /* HERO - big left / animated right */
-    .hero{min-height:90vh;display:grid;grid-template-columns:1fr 480px;gap:36px;align-items:center;padding-top:36px}
-    .hero-left{padding:14px}
-    .kicker{display:inline-block;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#021724;padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px}
-    h1{font-size:56px;line-height:1;margin:14px 0}
-    .byline{font-size:18px;color:#b6c7d8;margin-bottom:18px}
-    .cta-row{display:flex;gap:12px;align-items:center}
-    .btn{padding:12px 16px;border-radius:12px;border:0;font-weight:700;cursor:pointer}
-    .btn-primary{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#021724}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent-a)}
-
-    /* animated right card */
-    .hero-right{position:relative;height:520px;display:flex;align-items:center;justify-content:center}
-    .device{width:360px;height:480px;border-radius:20px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));backdrop-filter:blur(6px);box-shadow:0 30px 60px rgba(2,6,23,0.6);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.04)}
-    .device-screen{position:absolute;inset:16px;border-radius:12px;background:linear-gradient(180deg,#01202b 0%, #021a2a 100%);overflow:hidden;padding:18px;color:#dff6fa}
-    .mock-header{height:36px;display:flex;gap:8px;align-items:center}
-    .dot{width:10px;height:10px;border-radius:999px;background:#fff3;margin-right:6px;opacity:0.18}
-    .screenshots{display:flex;flex-direction:column;gap:12px;margin-top:12px}
-    .shot{height:92px;border-radius:10px;background:linear-gradient(90deg,var(--accent-b),var(--accent-c));display:flex;align-items:center;justify-content:center;font-weight:700;transform-origin:center;transition:transform 400ms cubic-bezier(.2,.9,.2,1)}
-    .shot:hover{transform:scale(1.03) rotate(-1deg)}
-
-    /* floating accent shapes */
-    .bg-shape{position:absolute;border-radius:999px;filter:blur(40px);opacity:0.16;pointer-events:none}
-    .shape-a{width:340px;height:340px;right:-80px;top:-40px;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));}
-    .shape-b{width:240px;height:240px;right:40px;bottom:-80px;background:linear-gradient(90deg,var(--accent-c),#ffb199);opacity:0.12}
-
-    /* TIMELINE / SECTIONS */
-    .sections{padding:60px 0}
-    .section{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start;margin-bottom:64px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
-
-    .timeline{position:relative;padding-left:36px}
-    .timeline::before{content:"";position:absolute;left:24px;top:6px;bottom:6px;width:3px;background:linear-gradient(180deg,var(--accent-a),var(--accent-b));border-radius:3px;opacity:0.8}
-    .event{position:relative;margin-bottom:28px;opacity:0;transform:translateY(30px);transition:all 700ms cubic-bezier(.2,.9,.2,1)}
-    .event.show{opacity:1;transform:translateY(0)}
-    .dot-lg{position:absolute;left:12px;top:6px;width:20px;height:20px;border-radius:999px;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));box-shadow:0 6px 18px rgba(4,10,18,0.6)}
-
-    .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .skill-pill{padding:10px;border-radius:999px;background:rgba(255,255,255,0.03);display:inline-block;font-weight:700}
-
-    /* CONTACT FOOTER */
-    footer{padding:40px 0;text-align:center;color:#9fb3c6}
-
-    /* small screens */
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr;gap:20px;padding-top:18px}
-      .hero-right{height:420px}
-      .section{grid-template-columns:1fr}
-      .sections{padding:24px 0}
-      .skills-grid{grid-template-columns:repeat(2,1fr)}
-    }
-
-    /* reveal utilities */
-    .reveal{opacity:0;transform:translateY(30px);transition:all 700ms cubic-bezier(.2,.9,.2,1)}
-    .reveal.show{opacity:1;transform:translateY(0)}
-
-    /* small helpers */
-    .muted{color:#a9c0cc}
-    .caps{letter-spacing:1.6px;font-weight:700}
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- GSAP CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header class="hero">
-      <div class="hero-left">
-        <span class="kicker">Full‑Stack • Architect</span>
-        <h1 class="reveal" id="heroTitle">Shreeram D — <span style="background:linear-gradient(90deg,var(--accent-a),var(--accent-b));-webkit-background-clip:text;color:transparent">Crafting delightful web apps</span></h1>
-        <p class="byline reveal">I design and build production‑ready applications using React, Node, Django and modern databases. I focus on performance, accessibility and developer experience.</p>
-        <div class="cta-row reveal" style="margin-top:18px">
-          <button class="btn btn-primary" onclick="scrollToSection('projects')">See projects</button>
-          <button class="btn btn-ghost" onclick="scrollToSection('contact')">Hire me</button>
-        </div>
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor"></div>
 
-        <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">
-          <div class="card muted">Location: India</div>
-          <div class="card muted">Open to remote</div>
-          <div class="card muted">Available: Immediately</div>
-        </div>
-      </div>
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <canvas id="bgCanvas"></canvas>
+    <div class="hero-content">
+      <img src="C:\Users\JAINIL\OneDrive\Desktop\portfolio\pf\photo\image.png" alt="Your Photo" class="hero-photo">
+      <h1>Hi, I'm <span class="name">MAYURKUMAR CHAVDA</span></h1>
+      <h2><span class="name">Full Stack Developer</span></h2>
+      <h2>I build <span class="typing"></span></h2>
+    </div>
+  </section>
 
-      <div class="hero-right">
-        <div class="bg-shape shape-a"></div>
-        <div class="bg-shape shape-b"></div>
+  <!-- ABOUT -->
+  <section id="about" class="hidden">
+    <h1>About Me</h1><BR><BR>
+    <H2>I am a Full Stack Developer who loves building websites and web applications. I work with HTML, CSS, JavaScript, React, Django, and MySQL to create user-friendly and responsive applications. I enjoy solving problems and learning new technologies to make better and smarter software.</H2>
+  </section>
 
-        <div class="device reveal" style="transform:translateY(0)">
-          <div class="device-screen">
-            <div class="mock-header">
-              <div style="width:44px;height:8px;border-radius:6px;background:rgba(255,255,255,0.04)"></div>
-              <div style="flex:1"></div>
-              <div style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.06)"></div>
-            </div>
+  <!-- SKILLS -->
+  <section id="skills" class="hidden">
+    <h1>Languages & Frameworks</h1><br><br>
+    <div class="skills-grid">
+      <div class="skill"><img src="https://cdn-icons-png.flaticon.com/128/9313/9313308.png" alt="C"><span>C</span></div>
+      <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"><span>C++</span></div>
+      <div class="skill">
+  <img src="https://cdn-icons-png.flaticon.com/512/3665/3665923.png" alt="Advanced C">
+  <span>Advanced C</span>
+</div>
 
-            <div class="screenshots">
-              <div class="shot">E‑Commerce — Cart & Checkout</div>
-              <div class="shot">Dashboard — Realtime Metrics</div>
-              <div class="shot">CMS — Manage Content</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+      <div class="skill"><img src="https://cdn-icons-png.flaticon.com/128/5968/5968389.png" alt="VB.NET"><span>VB.NET</span></div>
+      <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"><span>React</span></div>
+      <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"><span>Python</span></div>
+      <div class="skill"><img src="https://img.icons8.com/?size=96&id=qV-JzWYl9dzP&format=png" alt="Django"><span>Django</span></div>
+      <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"><span>Java</span></div>
+    <div class="skill">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
+  <span>HTML</span>
+</div>
 
-    <main class="sections">
-      <section class="section">
-        <div class="card">
-          <h3 class="caps">About</h3>
-          <p class="muted">I’m a full‑stack developer with experience shipping web products from MVP to production. I work across frontend (React/Next.js), backend (Node/Django), databases (Postgres/MySQL) and infra (Docker, CI/CD).</p>
-          <div style="margin-top:14px" class="skills-grid">
-            <div class="skill-pill">React</div>
-            <div class="skill-pill">Next.js</div>
-            <div class="skill-pill">Node</div>
-            <div class="skill-pill">Django</div>
-            <div class="skill-pill">Postgres</div>
-            <div class="skill-pill">Docker</div>
-          </div>
-        </div>
+<div class="skill">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
+  <span>CSS</span>
+</div>
 
-        <aside class="card timeline">
-          <h4 class="caps">Experience</h4>
-          <div class="event" data-when="2024"><div class="dot-lg"></div><strong>Lead Developer</strong><div class="muted">Product startup — Full stack</div></div>
-          <div class="event" data-when="2022"><div class="dot-lg"></div><strong>Software Engineer</strong><div class="muted">E‑commerce platform</div></div>
-          <div class="event" data-when="2020"><div class="dot-lg"></div><strong>Junior Developer</strong><div class="muted">Agency projects</div></div>
-        </aside>
-      </section>
+<div class="skill">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+  <span>JavaScript</span>
+</div>
 
-      <section id="projects" class="section">
-        <div class="card">
-          <h3 class="caps">Projects</h3>
-          <p class="muted">Selected production projects with links and short descriptions.</p>
+<div class="skill">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap">
+  <span>Bootstrap</span>
+</div>
 
-          <div style="margin-top:16px;display:grid;gap:12px">
-            <div class="card reveal">
-              <strong>Nursery E‑Commerce</strong>
-              <div class="muted">Full store with payments, inventory & admin dashboard.</div>
-            </div>
-            <div class="card reveal">
-              <strong>Inventory Management</strong>
-              <div class="muted">Realtime stock control and supplier integrations.</div>
-            </div>
-            <div class="card reveal">
-              <strong>Portfolio CMS</strong>
-              <div class="muted">Lightweight CMS for managing portfolio content.</div>
-            </div>
-          </div>
-        </div>
+    </div>
+  </section>
 
-        <aside class="card">
-          <h4 class="caps">Technologies</h4>
-          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-            <div class="skill-pill">React</div>
-            <div class="skill-pill">Node</div>
-            <div class="skill-pill">Django</div>
-            <div class="skill-pill">Postgres</div>
-            <div class="skill-pill">Stripe</div>
-            <div class="skill-pill">Docker</div>
-          </div>
-        </aside>
-      </section>
+  <!-- SOFTWARE -->
+  <section id="software" class="hidden">
+    <h1>Tools & Software</h1>
+    <div class="software-grid">
+      <div class="software"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAXVBMVEUBw8wEvc0Its8OrNEao9QiltYvi9gcw8+d3ef+/v/j7/p2zeA4fdwDmdRHbtxYsdzD1PRUWuElhN5hSeU2b+VtOeg6WumAi+x7KuijrPJKSfFUNvR2KO1uJvRiKfvM3XR5AAABDElEQVR4AW3QBXLEMBAFUZmZafn+x0x/axxQpZf31YxVdkERxXGSJGma5S5MiGL/IxagkcMM8zywoiguC7AoK6qbC1ttsqlGUPDeeAO9EWOlToMKMZAcjwaDYmHHINY7kWKnP2hZ1R3m0cfSRpQkVTWYgbEsrqsKonQcOrPJxT62SujaaehPMZ6UicwmlyTaBpackeZ8bs0Wp2VJp8lONIvMFpcqj4hoFck2Z9fhQBCyrnt9eNucdrGNOw5Qvx/V7u3mZt+d0Z2pHTtE2ImrqrkqNI3V/YFBoF/G32il1/0pe50oocfjcYzofXmKZKAJPX0iOvEC601mQpOPHh8RaOrOvxWCkZnQQJn96Bc6xyS0ZhpJcAAAAABJRU5ErkJggg==" alt="Canva"><span>Canva</span></div>
+      <div class="software"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code"><span>VS Code</span></div>
+      <div class="software"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"><span>GitHub</span></div>
+      <div class="software"><img src="https://w7.pngwing.com/pngs/883/686/png-transparent-adobe-illustrator-logo-tech-companies-thumbnail.png" alt="Illustrator"><span>Illustrator</span></div>
+      <div class="software"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma"><span>Figma</span></div>
+      <div class="software"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMDbI684jAkKQFy4eVmg5l-h3q97YaUV6QYtDIgVsjEc_oDa57" alt="PyCharm"><span>PyCharm</span></div>
+    </div>
+  </section>
 
-      <section id="contact" class="section">
-        <div class="card">
-          <h3 class="caps">Get in touch</h3>
-          <p class="muted">Interested in working together? Send a note and I’ll reply within 48 hours.</p>
-          <form onsubmit="submitContact(event)" style="margin-top:12px;display:flex;flex-direction:column;gap:10px">
-            <input id="name" placeholder="Your name" style="padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required />
-            <input id="email" type="email" placeholder="Email" style="padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required />
-            <textarea id="msg" rows="4" placeholder="Message" style="padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required></textarea>
-            <div style="display:flex;gap:10px">
-              <button class="btn btn-primary" type="submit">Send message</button>
-              <button type="button" class="btn btn-ghost" onclick="downloadResume()">Download resume</button>
-            </div>
-          </form>
-        </div>
+  <!-- PROJECTS -->
+  <section id="projects" class="hidden">
+    <h2>Projects</h2>
+    <div class="project-grid">
+      <div class="project-card"><h3>E-commerce Website for Nursery Management</h3></div>
+      <!-- <div class="project-card"><h3>Project 2</h3></div>
+      <div class="project-card"><h3>Project 3</h3></div> -->
+    </div>
+  </section>
 
-        <aside class="card">
-          <h4 class="caps">Contact</h4>
-          <div class="muted">Email: you@example.com</div>
-          <div class="muted" style="margin-top:8px">Location: India — Open to remote</div>
-        </aside>
-      </section>
-    </main>
+  <!-- CONTACT -->
+  <section id="contact" class="hidden">
+    <h2>Contact Me</h2>
+    <form>
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <textarea placeholder="Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+    <div class="social-links">
+  <a href="https://github.com/mayurchavda0711" target="_blank" aria-label="GitHub">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+  </a>
 
-    <footer>
-      <div class="muted">© <span id="year"></span> Shreeram — Built with ❤️ • Modern UI</div>
-    </footer>
-  </div>
+  <a href="https://www.linkedin.com/in/mayur-chavda-367562367" target="_blank" aria-label="LinkedIn">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+  </a>
 
-  <script>
-    // set year
-    document.getElementById('year').textContent = new Date().getFullYear();
+  <a href="https://x.com/imChavda07" target="_blank" aria-label="X">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/X_logo_2023_original.svg" alt="X">
+  </a>
+</div>
 
-    // Intersection Observer for reveal and timeline events
-    const revealOptions = {threshold:0.12};
-    const revealObserver = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('show'); revealObserver.unobserve(e.target); }
-      })
-    }, revealOptions);
 
-    document.querySelectorAll('.reveal').forEach(n=>revealObserver.observe(n));
+  </section>
 
-    // timeline events
-    document.querySelectorAll('.event').forEach(ev=>{ revealObserver.observe(ev); });
-
-    // device shot parallax on mouse move (subtle)
-    const device = document.querySelector('.device');
-    if(device){
-      device.addEventListener('mousemove', (e)=>{
-        const r = device.getBoundingClientRect();
-        const dx = (e.clientX - r.left - r.width/2)/20;
-        const dy = (e.clientY - r.top - r.height/2)/20;
-        device.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-      });
-      device.addEventListener('mouseleave', ()=> device.style.transform='translate3d(0,0,0)');
-    }
-
-    // simple scroll-to helper
-    function scrollToSection(id){
-      const el = document.getElementById(id);
-      if(!el) return window.scrollTo({top:0,behavior:'smooth'});
-      const y = el.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({top:y,behavior:'smooth'});
-    }
-
-    // contact demo
-    function submitContact(e){
-      e.preventDefault();
-      const n=document.getElementById('name').value.trim();
-      const m=document.getElementById('msg').value.trim();
-      if(!n || !m){ alert('Please fill required fields'); return }
-      alert('Thanks '+n+' — message received (demo).');
-      e.target.reset();
-    }
-
-    // resume downloader (demo)
-    function downloadResume(){
-      const blob = new Blob([`Shreeram - Full Stack Developer
-Email: you@example.com
-Replace with real PDF.`],{type:'text/plain'});
-      const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='Resume-Shreeram.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
