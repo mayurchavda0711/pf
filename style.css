@@ -88,3 +88,16 @@ button:hover{transform:scale(1.05);}
   column-gap: 1rem;   /* horizontal gap */
   row-gap: 1.2rem;   /* vertical gap (REDUCED) */
 }
+
+
+@media (max-width: 1024px){
+  .skills-grid{
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px){
+  .skills-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
